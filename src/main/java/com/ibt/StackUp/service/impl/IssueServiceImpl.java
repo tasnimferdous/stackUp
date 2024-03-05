@@ -1,8 +1,11 @@
 package com.ibt.StackUp.service.impl;
 
+import com.ibt.StackUp.entity.Epic;
 import com.ibt.StackUp.entity.Issue;
 import com.ibt.StackUp.entity.Sprint;
+import com.ibt.StackUp.repository.EpicRepository;
 import com.ibt.StackUp.repository.IssueRepository;
+import com.ibt.StackUp.repository.SprintRepository;
 import com.ibt.StackUp.service.IssueService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,10 +19,18 @@ import java.util.NoSuchElementException;
 @Slf4j
 public class IssueServiceImpl implements IssueService {
     private final IssueRepository issueRepository;
+    private final EpicRepository epicRepository;
+    private final SprintRepository sprintRepository;
     @Override
     public Issue createIssue(Issue issue) {
         Issue newIssue;
         try {
+            Sprint sprint = issue.getSprint() != null ? sprintRepository.findById(issue.getSprint().getId()).get() : null;
+            Epic epic = issue.getEpic() != null ? epicRepository.findById(issue.getEpic().getId()).get() : null;
+            Issue parentIssue = issue.getParentIssue() != null ? issueRepository.findById(issue.getParentIssue().getId()).get() : null;
+            issue.setEpic(epic);
+            issue.setParentIssue(parentIssue);
+            issue.setSprint(sprint);
             newIssue = issueRepository.save(issue);
         }catch (Exception e){
             e.printStackTrace();
