@@ -24,10 +24,21 @@ public class IssueServiceImpl implements IssueService {
     @Override
     public Issue createIssue(Issue issue) {
         Issue newIssue;
+        Sprint sprint = null;
+        Epic epic = null;
+        Issue parentIssue = null;
         try {
-            Sprint sprint = issue.getSprint() != null ? sprintRepository.findById(issue.getSprint().getId()).get() : null;
-            Epic epic = issue.getEpic() != null ? epicRepository.findById(issue.getEpic().getId()).get() : null;
-            Issue parentIssue = issue.getParentIssue() != null ? issueRepository.findById(issue.getParentIssue().getId()).get() : null;
+
+            if(issue.getSprint() != null &&  sprintRepository.findById(issue.getSprint().getId()).isPresent()) {
+                sprint = sprintRepository.findById(issue.getSprint().getId()).get();
+            }
+            if(issue.getEpic() != null &&  epicRepository.findById(issue.getEpic().getId()).isPresent()) {
+                epic = epicRepository.findById(issue.getEpic().getId()).get();
+            }
+            if(issue.getParentIssue() != null &&  issueRepository.findById(issue.getParentIssue().getId()).isPresent()) {
+                parentIssue = issueRepository.findById(issue.getParentIssue().getId()).get();
+            }
+
             issue.setEpic(epic);
             issue.setParentIssue(parentIssue);
             issue.setSprint(sprint);
@@ -79,7 +90,24 @@ public class IssueServiceImpl implements IssueService {
     @Override
     public Issue updateIssue(Issue issue) {
         Issue newIssue;
+        Sprint sprint = null;
+        Epic epic = null;
+        Issue parentIssue = null;
         try {
+
+            if(issue.getSprint() != null &&  sprintRepository.findById(issue.getSprint().getId()).isPresent()) {
+                sprint = sprintRepository.findById(issue.getSprint().getId()).get();
+            }
+            if(issue.getEpic() != null &&  epicRepository.findById(issue.getEpic().getId()).isPresent()) {
+                epic = epicRepository.findById(issue.getEpic().getId()).get();
+            }
+            if(issue.getParentIssue() != null &&  issueRepository.findById(issue.getParentIssue().getId()).isPresent()) {
+                parentIssue = issueRepository.findById(issue.getParentIssue().getId()).get();
+            }
+
+            issue.setEpic(epic);
+            issue.setParentIssue(parentIssue);
+            issue.setSprint(sprint);
             newIssue = issueRepository.save(issue);
         }catch (Exception e){
             e.printStackTrace();
