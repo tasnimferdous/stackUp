@@ -27,8 +27,6 @@ public class Issue {
 
     private ToDoType toDoType;
 
-    private ProgressMap progressMap;
-
     private Members assignedTo;
 
     private Members assignedBy;
@@ -38,6 +36,9 @@ public class Issue {
     @ManyToOne
     @JoinColumn(name = "parent_issue_id")
     private Issue parentIssue;
+
+    @ManyToOne
+    private Board progressMap;
 
     @ManyToOne
     private Sprint sprint;
