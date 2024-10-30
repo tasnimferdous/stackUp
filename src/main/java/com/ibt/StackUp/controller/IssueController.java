@@ -50,4 +50,9 @@ public class IssueController {
     public List<Issue> getIssuesBySprint(@RequestParam Long id){
         return issueService.getIssuesBySprint(id);
     }
+
+    @GetMapping(path = "/getByUser")
+    public List<Issue> getIssuesByUser(@RequestParam Long id){
+        return issueService.getIssuesByUser(id);
+    }
 }

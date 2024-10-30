@@ -1,8 +1,6 @@
 package com.ibt.StackUp.entity;
 
 import com.ibt.StackUp.Enum.IssueType;
-import com.ibt.StackUp.Enum.Members;
-import com.ibt.StackUp.Enum.ProgressMap;
 import com.ibt.StackUp.Enum.ToDoType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -27,9 +25,11 @@ public class Issue {
 
     private ToDoType toDoType;
 
-    private Members assignedTo;
+    @ManyToOne
+    private User assignedTo;
 
-    private Members assignedBy;
+    @ManyToOne
+    private User assignedBy;
 
     private int point;
 
