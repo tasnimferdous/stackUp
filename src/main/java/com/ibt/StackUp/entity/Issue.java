@@ -1,8 +1,6 @@
 package com.ibt.StackUp.entity;
 
 import com.ibt.StackUp.Enum.IssueType;
-import com.ibt.StackUp.Enum.Members;
-import com.ibt.StackUp.Enum.ProgressMap;
 import com.ibt.StackUp.Enum.ToDoType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -27,17 +25,20 @@ public class Issue {
 
     private ToDoType toDoType;
 
-    private ProgressMap progressMap;
+    @ManyToOne
+    private User assignedTo;
 
-    private Members assignedTo;
-
-    private Members assignedBy;
+    @ManyToOne
+    private User assignedBy;
 
     private int point;
 
     @ManyToOne
     @JoinColumn(name = "parent_issue_id")
     private Issue parentIssue;
+
+    @ManyToOne
+    private Board progressMap;
 
     @ManyToOne
     private Sprint sprint;

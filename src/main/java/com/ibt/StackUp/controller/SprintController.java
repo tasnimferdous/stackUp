@@ -28,9 +28,8 @@ public class SprintController {
         return response;
     }
     @GetMapping(path = "/get")
-    public MyResponse getOne(@RequestParam Long id){
-        MyResponse response = sprintService.getOne(id);
-        return response;
+    public Sprint getOne(@RequestParam Long id){
+        return sprintService.getOne(id);
     }
     @GetMapping(path = "/getAll")
     public List<Sprint> getAll(){

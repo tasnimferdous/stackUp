@@ -6,7 +6,9 @@ import com.ibt.StackUp.response.MyResponse;
 import com.ibt.StackUp.service.SprintService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.logging.log4j.util.Strings;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 
@@ -22,6 +24,15 @@ public class SprintServiceImpl implements SprintService {
         Sprint newSprint = null;
         String message = "Success";
         boolean err = false;
+        if(sprint.getName() ==null || sprint.getName().isEmpty()){
+            throw new NullPointerException("Name can't be null or empty");
+        }
+        if(sprint.getStartDate() ==null || sprint.getStartDate().toString().isEmpty()){
+            throw new NullPointerException("Start Date can't be null or empty");
+        }
+        if(sprint.getEndDate() ==null || sprint.getEndDate().toString().isEmpty()){
+            throw new NullPointerException("End Date can't be null or empty");
+        }
 
         try {
             newSprint = sprintRepository.save(sprint);
@@ -43,6 +54,15 @@ public class SprintServiceImpl implements SprintService {
         Sprint newSprint = null;
         String message = "Success";
         boolean err = false;
+        if(sprint.getName() ==null || sprint.getName().isEmpty()){
+            throw new NullPointerException("Name can't be null or empty");
+        }
+        if(sprint.getStartDate() ==null || sprint.getStartDate().toString().isEmpty()){
+            throw new NullPointerException("Start Date can't be null or empty");
+        }
+        if(sprint.getEndDate() ==null || sprint.getEndDate().toString().isEmpty()){
+            throw new NullPointerException("End Date can't be null or empty");
+        }
 
         try {
             newSprint = sprintRepository.save(sprint);
@@ -60,24 +80,17 @@ public class SprintServiceImpl implements SprintService {
     }
 
     @Override
-    public MyResponse getOne(Long id) {
-        Sprint newSprint = null;
-        String message = "Success";
-        boolean err = false;
+    public Sprint getOne(Long id) {
+        Sprint newSprint;
 
         try {
-            newSprint = sprintRepository.findById(id).get();
+            newSprint = sprintRepository.findById(id).orElse(null);
+            log.info(String.valueOf(newSprint));
         }catch (Exception e){
             e.printStackTrace();
-            err = true;
-            message = "Failed to retrieve data";
+            throw new RuntimeException("Failed to retrieve data.");
         }
-
-        return MyResponse.builder()
-                .hasError(err)
-                .message(message)
-                .content(newSprint.toString())
-                .build();
+        return newSprint;
     }
 
     @Override

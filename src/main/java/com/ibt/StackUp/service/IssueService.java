@@ -12,5 +12,6 @@ public interface IssueService {
     Issue deleteIssue(Long id);
     Issue updateIssue(Issue issue);
     List<Issue> getChildsOf(Issue id);
-    List<Issue> getIssuesBySprint(Sprint id);
+    List<Issue> getIssuesBySprint(Long id);
+    List<Issue> getIssuesByUser(Long id);
 }
